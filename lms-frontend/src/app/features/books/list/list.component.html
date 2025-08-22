@@ -1,0 +1,29 @@
+<h2>Books</h2>
+
+<table mat-table [dataSource]="data" class="mat-elevation-z2">
+    <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef>Title</th>
+        <td mat-cell *matCellDef="let row"><a [routerLink]="['/books', row.id]">{{ row.title }}</a></td>
+    </ng-container>
+
+    <ng-container matColumnDef="author">
+        <th mat-header-cell *matHeaderCellDef>Author</th>
+        <td mat-cell *matCellDef="let row">{{ row.author }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="copies">
+        <th mat-header-cell *matHeaderCellDef>Available</th>
+        <td mat-cell *matCellDef="let row">{{ row.copies }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let row">
+            <button mat-stroked-button color="primary" (click)="borrow(row)"
+                [disabled]="row.copies <= 0">Borrow</button>
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

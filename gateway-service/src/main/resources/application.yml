@@ -1,0 +1,62 @@
+server:
+  port: 9000
+
+spring:
+  main:
+    web-application-type: reactive   # stay on reactive
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            - id: users-auth
+              uri: http://localhost:8080
+              predicates:
+                - Path=/api/auth/**
+            - id: users-api
+              uri: http://localhost:8080
+              predicates:
+                - Path=/api/users/**
+            - id: books
+              uri: http://localhost:8081
+              predicates:
+                - Path=/api/books/**
+            - id: issues
+              uri: http://localhost:8082
+              predicates:
+                - Path=/api/issues/**
+          globalcors:
+            add-to-simple-url-handler-mapping: true
+            cors-configurations:
+              '[/**]':
+                allowed-origins:
+                  - http://localhost:4200
+                  - http://127.0.0.1:4200
+                allowed-methods:
+                  - GET
+                  - POST
+                  - PUT
+                  - PATCH
+                  - DELETE
+                  - OPTIONS
+                allowed-headers:
+                  - Authorization
+                  - Content-Type
+                  - Cache-Control
+                  - X-Requested-With
+                exposed-headers:
+                  - Authorization
+                  - Location
+                allow-credentials: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway
+  endpoint:
+    gateway:
+      access: read-only   # <- replaces '...enabled: true'
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG

@@ -1,0 +1,40 @@
+<mat-toolbar color="primary" class="toolbar">
+    <button mat-button routerLink="/">
+        <mat-icon>menu_book</mat-icon>
+        <span class="brand">LMS</span>
+    </button>
+
+    <span class="grow"></span>
+
+    <button mat-button routerLink="/books">Books</button>
+    <button mat-button routerLink="/my/borrows" *ngIf="auth.isLoggedIn()">My Borrows</button>
+
+    <button mat-button [matMenuTriggerFor]="admin" *ngIf="auth.isAdmin()">
+        Admin <mat-icon>expand_more</mat-icon>
+    </button>
+    <mat-menu #admin="matMenu">
+        <button mat-menu-item routerLink="/admin/books">Books Admin</button>
+        <button mat-menu-item routerLink="/admin/users">Users / Active Issues</button>
+    </mat-menu>
+
+    <ng-container *ngIf="auth.isLoggedIn(); else guest">
+        <button mat-button routerLink="/profile">
+            <mat-icon>account_circle</mat-icon>
+            {{ auth.username() }}
+        </button>
+
+        <mat-chip-set class="chipset" *ngIf="penalty() !== null">
+            <mat-chip color="warn" [disabled]="true">{{ penalty() }} / 5</mat-chip>
+        </mat-chip-set>
+
+        <button mat-raised-button color="accent" (click)="doLogout()">
+            <mat-icon>logout</mat-icon>
+            Logout
+        </button>
+    </ng-container>
+
+    <ng-template #guest>
+        <button mat-stroked-button color="accent" routerLink="/login">Login</button>
+        <button mat-button routerLink="/signup">Sign up</button>
+    </ng-template>
+</mat-toolbar>

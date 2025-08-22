@@ -1,0 +1,9 @@
+.card {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 16px;
+}
+
+.actions {
+    margin-top: 16px;
+}
