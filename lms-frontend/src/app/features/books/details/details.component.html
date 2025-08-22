@@ -1,7 +1,0 @@
-<mat-card *ngIf="book" class="card">
-    <h2>{{ book.title }}</h2>
-    <div class="meta">by {{ book.author }}</div>
-    <p class="desc">{{ book.description || '—' }}</p>
-    <div>Available copies: <b>{{ book.copies }}</b></div>
-    <button mat-raised-button color="primary" (click)="borrow()" [disabled]="book.copies<=0">Borrow</button>
-</mat-card>
